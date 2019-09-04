@@ -1,3 +1,4 @@
+import pandas as pd
 import numpy as np
 import warnings
 from sklearn.exceptions import UndefinedMetricWarning
@@ -138,6 +139,20 @@ class Resultado():
         """
         return np.average(self.f1_por_classe)
 
+    def show_results(self, method_name):
+        return pd.DataFrame(dict(
+            metodo=[method_name],
+            acuracia=[self.acuracia],
+            macro_f1=[self.macro_f1],
+        ))
+
+    def show_results_by_class(self, method_name):
+        return pd.DataFrame({
+            'classe':[classe for classe in range(len(self.mat_confusao))],
+            f'{method_name}_revocacao': self.revocacao,
+            f'{method_name}_f1_por_classe': self.f1_por_classe,
+            f'{method_name}_precisao': self.precisao,
+        })
 
 
 class Fold():
